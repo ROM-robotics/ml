@@ -6,7 +6,7 @@ img = imread('apple.jpg');
 
 gray = rgb2gray(img); 
 
-T = mean(gray);
+T = mean(gray(:));
 
 binarization = (gray>T);
 imshow(binarization);
