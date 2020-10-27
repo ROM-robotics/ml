@@ -75,12 +75,12 @@ x_train, x_test, y_train, y_test = train_test_split(total_x,total_y,test_size=0.
 print("training amount :",x_train.shape[0])
 print("testing amount  :",x_test.shape[0])
 
-x_train_pre = preProcessing(x_train)
+#x_train_pre = preProcessing(x_train)
 x_test_pre  = preProcessing(x_test)
 
 print("Finished preprocessing!")
 
-x_train_feature = featureExtraction(x_train_pre)
+#x_train_feature = featureExtraction(x_train_pre)
 x_test_feature  = featureExtraction(x_test_pre)
 
 print("Finished feature extraction!")
@@ -88,27 +88,13 @@ print("Finished feature extraction!")
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
-clf = KNeighborsClassifier(n_jobs=-1, weights='distance', n_neighbors=11)
-clf.fit(x_train_feature, y_train)
+import pickle as pk
+filename = "my_model.sav"
+model = pk.load(open(filename, 'rb'))
+predicted_y = model.predict(x_test_feature)
+print(accuracy_score(y_test, predicted_y)*100,'%')
 
-print("Training finished!")
-
-y_knn_predict = clf.predict(x_test_feature)
-print(accuracy_score(y_test, y_knn_predict)*100,'%')
-
-print("Predict finished!")
-
-slice = 15
-
-plt.figure(figsize=(16,8))
-for i in range(slice):
-    plt.subplot(1,slice , i+1)
-    plt.imshow(x_test[i])
-    plt.text(0, 0, (y_knn_predict[i]), color='black', 
-              bbox=dict(facecolor='white', alpha=1))
-    plt.axis('off')
-
-
+print("Predict finished")
 
 
 

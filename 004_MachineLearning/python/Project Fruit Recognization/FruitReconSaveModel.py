@@ -86,28 +86,18 @@ x_test_feature  = featureExtraction(x_test_pre)
 print("Finished feature extraction!")
 
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
 
 clf = KNeighborsClassifier(n_jobs=-1, weights='distance', n_neighbors=11)
 clf.fit(x_train_feature, y_train)
 
 print("Training finished!")
 
-y_knn_predict = clf.predict(x_test_feature)
-print(accuracy_score(y_test, y_knn_predict)*100,'%')
+import pickle as pk
 
-print("Predict finished!")
+filename = "my_model.sav"
+pk.dump(clf, open(filename, 'wb'))
 
-slice = 15
-
-plt.figure(figsize=(16,8))
-for i in range(slice):
-    plt.subplot(1,slice , i+1)
-    plt.imshow(x_test[i])
-    plt.text(0, 0, (y_knn_predict[i]), color='black', 
-              bbox=dict(facecolor='white', alpha=1))
-    plt.axis('off')
-
+print("Model saving finished!")
 
 
 
